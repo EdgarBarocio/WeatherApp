@@ -30,7 +30,7 @@ struct CityWeather: Codable {
         self.weatherIcon = weatherIcon
     }
     
-    func weatherIconURL() -> URL? {
-        return URL(string: <#T##String#>)
-    }
+//    func weatherIconURL() -> URL? {
+//        return URL(string: <#T##String#>)
+//    }
 }

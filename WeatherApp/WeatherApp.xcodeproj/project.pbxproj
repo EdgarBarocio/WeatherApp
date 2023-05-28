@@ -17,6 +17,7 @@
 		8EFA5F232A23A64F00CA610F /* LocationUpdateProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFA5F222A23A64F00CA610F /* LocationUpdateProtocol.swift */; };
 		8EFA5F262A23A87400CA610F /* WeatherModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFA5F252A23A87400CA610F /* WeatherModel.swift */; };
 		8EFA5F282A23AD9700CA610F /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFA5F272A23AD9700CA610F /* NetworkConstants.swift */; };
+		8EFA5F2C2A23FC4C00CA610F /* ServiceCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFA5F2B2A23FC4C00CA610F /* ServiceCalls.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +52,7 @@
 		8EFA5F222A23A64F00CA610F /* LocationUpdateProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LocationUpdateProtocol.swift; sourceTree = "<group>"; };
 		8EFA5F252A23A87400CA610F /* WeatherModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherModel.swift; sourceTree = "<group>"; };
 		8EFA5F272A23AD9700CA610F /* NetworkConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkConstants.swift; sourceTree = "<group>"; };
+		8EFA5F2B2A23FC4C00CA610F /* ServiceCalls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceCalls.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -100,6 +102,7 @@
 		8EFA5EEB2A23972500CA610F /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				8EFA5F2A2A23FB8500CA610F /* Networking */,
 				8EFA5F242A23A85600CA610F /* Models */,
 				8EFA5F212A23A64F00CA610F /* Protocols */,
 				8EFA5EEC2A23972500CA610F /* AppDelegate.swift */,
@@ -136,6 +139,14 @@
 				8EFA5F252A23A87400CA610F /* WeatherModel.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		8EFA5F2A2A23FB8500CA610F /* Networking */ = {
+			isa = PBXGroup;
+			children = (
+				8EFA5F2B2A23FC4C00CA610F /* ServiceCalls.swift */,
+			);
+			path = Networking;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -275,6 +286,7 @@
 				8EFA5EED2A23972500CA610F /* AppDelegate.swift in Sources */,
 				8EFA5EEF2A23972500CA610F /* SceneDelegate.swift in Sources */,
 				8EFA5F262A23A87400CA610F /* WeatherModel.swift in Sources */,
+				8EFA5F2C2A23FC4C00CA610F /* ServiceCalls.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -447,6 +459,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CJ5733QS4D;
@@ -478,6 +491,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = CJ5733QS4D;
