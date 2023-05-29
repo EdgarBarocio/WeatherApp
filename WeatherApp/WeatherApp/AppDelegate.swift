@@ -39,6 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
+        // Called when app is being terminated
         locationManager?.stopUpdatingLocation()
     }
     
