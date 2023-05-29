@@ -85,10 +85,10 @@ extension ViewController: UISearchBarDelegate {
 extension ViewController: WeatherResultsProtocolDelegate {
     func displayCurrentWeather(weather: CityWeather) {
         self.descriptionLabel.text = weather.description
-        self.currentTempLabel.text = String(format: "Temp: %f", weather.temp)
-        self.minimumTempLabel.text = String(format: "Min Temp: %f", weather.tempMin)
-        self.maximumTempLabel.text = String(format: "Min Temp: %f", weather.tempMax)
-        self.feelsLikeLabel.text = String(format: "Feels like: %f", weather.feelsLike)
+        self.currentTempLabel.text = String(format: "Temp: %.2f", weather.temp)
+        self.minimumTempLabel.text = String(format: "Min Temp: %.2f", weather.tempMin)
+        self.maximumTempLabel.text = String(format: "Min Temp: %.2f", weather.tempMax)
+        self.feelsLikeLabel.text = String(format: "Feels like: %.2f", weather.feelsLike)
         
         cityWeatherViewModel.getImagefromURL(url: weather.iconURL)
     }
