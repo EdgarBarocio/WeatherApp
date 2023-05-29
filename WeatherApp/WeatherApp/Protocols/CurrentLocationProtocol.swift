@@ -8,6 +8,6 @@
 import Foundation
 import CoreLocation
 
-protocol CurrentLocationProtocol {
-    func updateLocation(location: CLLocation)
+protocol CurrentLocationProtocol: AnyObject {
+    func updateLocation(location: CLLocation?)
 }

@@ -13,6 +13,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
 
     var locationManager: CLLocationManager?
     var currentLocation: CLLocation?
+    
+    weak var delegate: (CurrentLocationProtocol)?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
@@ -52,6 +54,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         guard let location = locations.last else { return }
         
         self.currentLocation? = location
+        delegate?.updateLocation(location: self.currentLocation)
     }
     
     private func checkAuthorization() {
