@@ -20,6 +20,7 @@
 		8EFA5F2C2A23FC4C00CA610F /* ServiceCalls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFA5F2B2A23FC4C00CA610F /* ServiceCalls.swift */; };
 		8EFA5F2E2A24076400CA610F /* CityGeocode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFA5F2D2A24076400CA610F /* CityGeocode.swift */; };
 		8EFA5F312A2428E600CA610F /* CityWeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFA5F302A2428E600CA610F /* CityWeatherViewModel.swift */; };
+		8EFA5F332A2432DC00CA610F /* WeatherResultsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFA5F322A2432DC00CA610F /* WeatherResultsProtocol.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,7 @@
 		8EFA5F2B2A23FC4C00CA610F /* ServiceCalls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServiceCalls.swift; sourceTree = "<group>"; };
 		8EFA5F2D2A24076400CA610F /* CityGeocode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityGeocode.swift; sourceTree = "<group>"; };
 		8EFA5F302A2428E600CA610F /* CityWeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityWeatherViewModel.swift; sourceTree = "<group>"; };
+		8EFA5F322A2432DC00CA610F /* WeatherResultsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherResultsProtocol.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +136,7 @@
 			isa = PBXGroup;
 			children = (
 				8EFA5F222A23A64F00CA610F /* LocationUpdateProtocol.swift */,
+				8EFA5F322A2432DC00CA610F /* WeatherResultsProtocol.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -301,6 +304,7 @@
 				8EFA5EED2A23972500CA610F /* AppDelegate.swift in Sources */,
 				8EFA5EEF2A23972500CA610F /* SceneDelegate.swift in Sources */,
 				8EFA5F262A23A87400CA610F /* CityWeather.swift in Sources */,
+				8EFA5F332A2432DC00CA610F /* WeatherResultsProtocol.swift in Sources */,
 				8EFA5F2C2A23FC4C00CA610F /* ServiceCalls.swift in Sources */,
 				8EFA5F312A2428E600CA610F /* CityWeatherViewModel.swift in Sources */,
 			);

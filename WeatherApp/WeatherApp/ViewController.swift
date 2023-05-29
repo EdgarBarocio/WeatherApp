@@ -9,6 +9,8 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    private var cityWeatherViewModel = CityWeatherViewModel()
+    
     @IBOutlet var searchBar: UIView!
     @IBOutlet var weatherImage: UIView!
     
@@ -38,6 +40,7 @@ extension ViewController: UISearchBarDelegate {
             return
         }
         
+        cityWeatherViewModel.performSearch(entry: searchText)
         
     }
     
