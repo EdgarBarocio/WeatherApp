@@ -29,6 +29,13 @@ class CityWeatherViewModel {
         }
     }
     
+    func getImagefromURL(url: String) {
+        
+        serviceCalls.downloadImage(url: url) { [weak self] result in
+            self?.delegate?.displayImageData(data: result)
+        }
+    }
+    
     //MARK: - Private Functions
     
     private func searchParameters(city: CityGeocode?) -> URL? {

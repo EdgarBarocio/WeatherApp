@@ -9,4 +9,5 @@ import Foundation
 
 protocol WeatherResultsProtocolDelegate: AnyObject {
     func displayCurrentWeather(weather: CityWeather)
+    func displayImageData(data: Data)
 }
