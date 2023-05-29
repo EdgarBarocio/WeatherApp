@@ -9,5 +9,5 @@ import Foundation
 import CoreLocation
 
 protocol CurrentLocationProtocol: AnyObject {
-    func updateLocation(location: CLLocation?)
+    func updateLocation(location: CityGeocode)
 }

@@ -6,12 +6,13 @@
 //
 
 import UIKit
+import CoreLocation
 
 class ViewController: UIViewController {
     
-    private var cityWeatherViewModel = CityWeatherViewModel()
+    var locationManager: CLLocationManager?
     
-
+    private var cityWeatherViewModel = CityWeatherViewModel()
 
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var weatherImageView: UIImageView!
@@ -31,9 +32,21 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        locationManager = CLLocationManager()
+        locationManager?.delegate = self
+        locationManager?.requestWhenInUseAuthorization()
+        
         cityWeatherViewModel.delegate = self
+        cityWeatherViewModel.locationDelegate = self
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        let defaults = UserDefaults.standard
+        self.searchBar.text = defaults.string(forKey: "StoredSearch")
+    }
     // MARK: - Internal Methods
     @objc func dismissKeyboard() {
       searchBar.resignFirstResponder()
@@ -49,7 +62,8 @@ extension ViewController: UISearchBarDelegate {
             return
         }
         
-        cityWeatherViewModel.performSearch(entry: searchText)
+        search(entry: searchText)
+        
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -58,6 +72,13 @@ extension ViewController: UISearchBarDelegate {
     
     func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
       view.removeGestureRecognizer(tapRecognizer)
+    }
+    
+    private func search(entry: String) {
+        let defaults = UserDefaults.standard
+        defaults.set(entry, forKey: "StoredSearch")
+        
+        cityWeatherViewModel.performSearch(entry: entry)
     }
 }
 
@@ -76,3 +97,40 @@ extension ViewController: WeatherResultsProtocolDelegate {
         self.weatherImageView.image =  UIImage(data: data)
     }
 }
+
+extension ViewController: CurrentLocationProtocol {
+    func updateLocation(location: CityGeocode) {
+        self.searchBar.text = location.name
+        self.search(entry: location.name)
+    }
+}
+
+extension ViewController: CLLocationManagerDelegate {
+    
+    //MARK: - Location calls
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        checkAuthorization()
+    }
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.last else { return }
+        
+        cityWeatherViewModel.getCityFromLocation(location: location)
+    }
+    
+    private func checkAuthorization() {
+        
+        switch locationManager?.authorizationStatus {
+        case .notDetermined:
+            locationManager?.requestWhenInUseAuthorization()
+        case .authorizedWhenInUse, .authorizedAlways:
+            /// app is authorized
+            locationManager?.startUpdatingLocation()
+        default:
+            break
+        }
+    }
+}
+
+
+

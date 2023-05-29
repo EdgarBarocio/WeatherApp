@@ -10,19 +10,9 @@ import CoreLocation
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate {
-
-    var locationManager: CLLocationManager?
-    var currentLocation: CLLocation?
     
-    weak var delegate: (CurrentLocationProtocol)?
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        
-        locationManager = CLLocationManager()
-        locationManager?.delegate = self
-        locationManager?.requestWhenInUseAuthorization()
-
         return true
     }
 
@@ -40,34 +30,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CLLocationManagerDelegate
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
     
-    func applicationWillTerminate(_ application: UIApplication) {
-        // Called when app is being terminated
-        locationManager?.stopUpdatingLocation()
-    }
-    
-    //MARK: - Location calls
-    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
-        checkAuthorization()
-    }
-    
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        
-        self.currentLocation? = location
-        delegate?.updateLocation(location: self.currentLocation)
-    }
-    
-    private func checkAuthorization() {
-        
-        switch locationManager?.authorizationStatus {
-        case .notDetermined:
-            locationManager?.requestWhenInUseAuthorization()
-        case .authorizedWhenInUse, .authorizedAlways:
-            /// app is authorized
-            locationManager?.startUpdatingLocation()
-        default:
-            break
-        }
-    }
 }
 

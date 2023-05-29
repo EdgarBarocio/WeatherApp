@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import CoreLocation
 
 class CityWeatherViewModel {
     
@@ -14,6 +15,7 @@ class CityWeatherViewModel {
     private var weather: CityWeather?
     
     weak var delegate: (WeatherResultsProtocolDelegate)?
+    weak var locationDelegate: (CurrentLocationProtocol)?
     
     func performSearch(entry: String) {
         let searchArray = entry.components(separatedBy: [","]).filter({!$0.isEmpty})
@@ -30,9 +32,22 @@ class CityWeatherViewModel {
     }
     
     func getImagefromURL(url: String) {
-        
         serviceCalls.downloadImage(url: url) { [weak self] result in
             self?.delegate?.displayImageData(data: result)
+        }
+    }
+    
+    func getCityFromLocation(location: CLLocation?) {
+        
+        guard let safeLocation = location else { return }
+        
+        let geocodeString = String(format: NetworkConstants.reverseGeocodingURL, safeLocation.coordinate.latitude, safeLocation.coordinate.longitude)
+        let geocodeURL = URL(string: geocodeString)
+        
+        if let safeURL = geocodeURL {
+            serviceCalls.getCity(url: safeURL) { [weak self] result, errorMessage in
+                self?.parseGeolocation(data: result, errorMessage: errorMessage)
+            }
         }
     }
     
@@ -43,11 +58,11 @@ class CityWeatherViewModel {
         
         var searchString = safeCity.name
         
-        if let state = safeCity.state {
+        if let state = safeCity.state?.replacingOccurrences(of: " ", with: "") {
             searchString.append(",\(state)")
         }
 
-        if let country = safeCity.country {
+        if let country = safeCity.country?.replacingOccurrences(of: " ", with: "") {
             searchString.append(",\(country)")
         }
         let encodedString = searchString.replacingOccurrences(of: " ", with: "%20")
@@ -83,7 +98,6 @@ class CityWeatherViewModel {
             return
         }
 
-        
         let cityWeather = CityWeather(temp: mainDictionary["temp"] as? Double ?? 0.0,
                                       feelsLike: mainDictionary["feels_like"] as? Double ?? 0.0,
                                       tempMin: mainDictionary["temp_min"] as? Double ?? 0.0,
@@ -92,5 +106,28 @@ class CityWeatherViewModel {
                                       iconURL: weatherDictionary["icon"] as? String ?? "nope")
         
         delegate?.displayCurrentWeather(weather: cityWeather)
+    }
+    
+    private func parseGeolocation(data: Data, errorMessage: String) {
+        var responseDictionary: [String: Any]?
+        
+        do {
+            let str = String(decoding: data, as: UTF8.self)
+            let dropFirst = str.dropFirst()
+            let cleanString = dropFirst.dropLast()
+            let cleanData = Data(cleanString.utf8)
+            responseDictionary = try JSONSerialization.jsonObject(with: cleanData, options:[]) as? [String: Any] ?? Dictionary()
+        } catch {
+            print(error.localizedDescription)
+        }
+        
+        guard let namesDictionary = responseDictionary?["local_names"] as? [String: Any],
+            let name = namesDictionary["en"] as? String else {
+                return
+                
+            }
+        
+        let cityGeocode: CityGeocode = CityGeocode(name: name)
+        locationDelegate?.updateLocation(location: cityGeocode)
     }
 }
