@@ -16,27 +16,44 @@ class CityWeatherViewModel {
     
     weak var delegate: (WeatherResultsProtocolDelegate)?
     weak var locationDelegate: (CurrentLocationProtocol)?
-    
+
+    // MARK: - Public functions
+    /**
+        Function that ejecutes the weather search
+     
+     - Parameters:
+        - entry: String from the search bar
+     */
     func performSearch(entry: String) {
         let searchArray = entry.components(separatedBy: [","]).filter({!$0.isEmpty})
-
-        //let searchArray = entry.split(separator: ",", omittingEmptySubsequences: true)
         let city = createCityGeocode(searchArray)
         let searchURL = searchParameters(city: city)
         
         if let safeURL = searchURL {
-            serviceCalls.getWeatherResults(url: safeURL) {[weak self] result, errorMessage in
-                self?.parseResponse(data: result, errorMessage: errorMessage)
+            serviceCalls.getWeatherResults(url: safeURL) {[weak self] result in
+                self?.parseResponse(data: result)
             }
         }
     }
     
+    /**
+        Function that downloads the Main weather icon
+     
+     - Parameters:
+        - url: Image url in string format
+     */
     func getImagefromURL(url: String) {
         serviceCalls.downloadImage(url: url) { [weak self] result in
             self?.delegate?.displayImageData(data: result)
         }
     }
     
+    /**
+     Function that performs the reverse geocoding service call to get a location from a CLLocation
+     
+     - Parameters:
+        - location: Saved CLLocation
+     */
     func getCityFromLocation(location: CLLocation?) {
         
         guard let safeLocation = location else { return }
@@ -45,14 +62,21 @@ class CityWeatherViewModel {
         let geocodeURL = URL(string: geocodeString)
         
         if let safeURL = geocodeURL {
-            serviceCalls.getCity(url: safeURL) { [weak self] result, errorMessage in
-                self?.parseGeolocation(data: result, errorMessage: errorMessage)
+            serviceCalls.getCity(url: safeURL) { [weak self] result in
+                self?.parseGeolocation(data: result)
             }
         }
     }
     
     //MARK: - Private Functions
-    
+    /**
+    Private function that builds the URL for the weather service call from a CityGeocode object
+     
+     - Parameters:
+        - city: CityGeocode struct storing Name, state and country.
+     
+     - Returns:Optional URL for the Weather search call
+     */
     private func searchParameters(city: CityGeocode?) -> URL? {
         guard let safeCity = city else { return nil }
         
@@ -70,6 +94,14 @@ class CityWeatherViewModel {
         return URL(string: urlString)
     }
     
+    /**
+     Private function that buidls a CityGeocode struct from an array of entries
+     
+     - Parameters:
+        - parameters: Array of string representing the search from the search bar. Example: ["New York", "NY", "USA"]
+     
+     - Returns: CityGeocode struct
+     */
     private func createCityGeocode(_ parameters:[String] ) -> CityGeocode? {
     
         if parameters.count == 1 {
@@ -83,9 +115,15 @@ class CityWeatherViewModel {
         return nil
     }
     
-    private func parseResponse(data: Data, errorMessage: String) {
+    /**
+     Prifave function to parse the response of the Weather service call, passing the result to the view through displayCurrentWeather()
+     
+     - Parameters:
+        -  data: Service call response in Data format
+     */
+    private func parseResponse(data: Data) {
         var responseDictionary: [String: Any]?
-        
+        // Used JSONSerialization instead of JSONDecoder because I could not get it to decode the nested JSONs
         do {
             responseDictionary = try JSONSerialization.jsonObject(with: data, options:[]) as? [String: Any] ?? Dictionary()
         } catch {
@@ -108,10 +146,18 @@ class CityWeatherViewModel {
         delegate?.displayCurrentWeather(weather: cityWeather)
     }
     
-    private func parseGeolocation(data: Data, errorMessage: String) {
+    /**
+     Prifave function to parse the Geolocaition service data, then calls the locationDelegate protocol to automatically perform the Search and fill the city info on the search bar
+     
+     - Parameters:
+        -  data: Service call response in Data format
+     */
+    private func parseGeolocation(data: Data) {
         var responseDictionary: [String: Any]?
         
         do {
+            /// Service returns JSON inside an array. Given more time, I would have found a cleaner decoding, instead of converting to string,
+            /// dropping the brackets manually instead of using a range and converting to data to use Serialization
             let str = String(decoding: data, as: UTF8.self)
             let dropFirst = str.dropFirst()
             let cleanString = dropFirst.dropLast()

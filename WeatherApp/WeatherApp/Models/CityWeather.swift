@@ -7,6 +7,7 @@
 
 import Foundation
 
+/// Struct to store the Search result for weather for any given city
 struct CityWeather {
     var temp: Double
     var feelsLike: Double

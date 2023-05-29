@@ -13,7 +13,6 @@
 		8EFA5EF42A23972500CA610F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EFA5EF22A23972500CA610F /* Main.storyboard */; };
 		8EFA5EF62A23972500CA610F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8EFA5EF52A23972500CA610F /* Assets.xcassets */; };
 		8EFA5EF92A23972500CA610F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8EFA5EF72A23972500CA610F /* LaunchScreen.storyboard */; };
-		8EFA5F042A23972500CA610F /* WeatherAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFA5F032A23972500CA610F /* WeatherAppTests.swift */; };
 		8EFA5F232A23A64F00CA610F /* CurrentLocationProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFA5F222A23A64F00CA610F /* CurrentLocationProtocol.swift */; };
 		8EFA5F262A23A87400CA610F /* CityWeather.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFA5F252A23A87400CA610F /* CityWeather.swift */; };
 		8EFA5F282A23AD9700CA610F /* NetworkConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8EFA5F272A23AD9700CA610F /* NetworkConstants.swift */; };
@@ -50,7 +49,6 @@
 		8EFA5EF82A23972500CA610F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		8EFA5EFA2A23972500CA610F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8EFA5EFF2A23972500CA610F /* WeatherAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8EFA5F032A23972500CA610F /* WeatherAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherAppTests.swift; sourceTree = "<group>"; };
 		8EFA5F092A23972500CA610F /* WeatherAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WeatherAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8EFA5F222A23A64F00CA610F /* CurrentLocationProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CurrentLocationProtocol.swift; sourceTree = "<group>"; };
 		8EFA5F252A23A87400CA610F /* CityWeather.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityWeather.swift; sourceTree = "<group>"; };
@@ -90,7 +88,6 @@
 			isa = PBXGroup;
 			children = (
 				8EFA5EEB2A23972500CA610F /* WeatherApp */,
-				8EFA5F022A23972500CA610F /* WeatherAppTests */,
 				8EFA5EEA2A23972500CA610F /* Products */,
 			);
 			sourceTree = "<group>";
@@ -122,14 +119,6 @@
 				8EFA5F272A23AD9700CA610F /* NetworkConstants.swift */,
 			);
 			path = WeatherApp;
-			sourceTree = "<group>";
-		};
-		8EFA5F022A23972500CA610F /* WeatherAppTests */ = {
-			isa = PBXGroup;
-			children = (
-				8EFA5F032A23972500CA610F /* WeatherAppTests.swift */,
-			);
-			path = WeatherAppTests;
 			sourceTree = "<group>";
 		};
 		8EFA5F212A23A64F00CA610F /* Protocols */ = {
@@ -314,7 +303,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8EFA5F042A23972500CA610F /* WeatherAppTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

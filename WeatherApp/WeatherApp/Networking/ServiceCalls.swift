@@ -7,20 +7,28 @@
 
 import Foundation
 
+/// Services Calls class
+///  given more time, the completion closures would have error handling, not only prints fomr the base call
 class ServiceCalls {
     
+    /// Local image caching in NSData format, stores NSData in cache
     private let imageCache = NSCache<NSString, NSData>()
     
     let defaultSession = URLSession(configuration: .default)
     
     var dataTask: URLSessionDataTask?
-    var errorMessage = ""
     
-    
-    typealias WeatherResult = (Data, String) -> Void
+    typealias WeatherResult = (Data) -> Void
     typealias ImageDownload = (Data) -> Void
-    typealias LocationResult = (Data, String) -> Void
+    typealias LocationResult = (Data) -> Void
     
+    /**
+     Service call to get Weather information
+     
+     - Parameters:
+        - url: Service URL
+        - completion: Closure to pass response back to the View Model
+     */
     func getWeatherResults(url: URL, completion: @escaping WeatherResult) {
         dataTask?.cancel()
         
@@ -30,14 +38,14 @@ class ServiceCalls {
             }
             
             if let error = error {
-                self?.errorMessage += "Data task error: " + error.localizedDescription + "\n"
+                print(error.localizedDescription)
             } else if
                 let data = data,
                 let response = response as? HTTPURLResponse,
                 response.statusCode == 200 {
                 
                 DispatchQueue.main.async {
-                    completion(data, self?.errorMessage ?? "")
+                    completion(data)
                 }
             }
             
@@ -46,6 +54,14 @@ class ServiceCalls {
         dataTask?.resume()
     }
     
+    /**
+     Service call that downloads and stores image data to cache.
+        Made de decision to implement the Cache here to avoid making service calls for assets previously called
+     
+     - Parameters:
+        - url: Weather image URL in string format
+        - completion: Closure that passes the image data from service or cache to the View Model
+     */
     func downloadImage(url: String, completion:@escaping ImageDownload) {
         dataTask?.cancel()
         
@@ -65,12 +81,13 @@ class ServiceCalls {
             }
             
             if let error = error {
-                self?.errorMessage += "Data task error: " + error.localizedDescription + "\n"
+                print(error.localizedDescription)
             } else if
                 let data = data,
                 let response = response as? HTTPURLResponse,
                 response.statusCode == 200 {
                 
+                //store the data in cache
                 self?.imageCache.setObject(data as NSData, forKey: url as NSString)
                 
                 DispatchQueue.main.async {
@@ -82,6 +99,13 @@ class ServiceCalls {
         dataTask?.resume()
     }
     
+    /**
+     Service call to get the reverse geocode from a location
+     
+     - Parameters:
+        - url: URL for reverse geocoding
+        - completion: Closure to pass result to View Model
+     */
     func getCity(url: URL, completion: @escaping LocationResult) {
         dataTask?.cancel()
         
@@ -91,14 +115,14 @@ class ServiceCalls {
             }
             
             if let error = error {
-                self?.errorMessage += "Data task error: " + error.localizedDescription + "\n"
+                print(error.localizedDescription)
             } else if
                 let data = data,
                 let response = response as? HTTPURLResponse,
                 response.statusCode == 200 {
                 
                 DispatchQueue.main.async {
-                    completion(data, self?.errorMessage ?? "")
+                    completion(data)
                 }
             }
             

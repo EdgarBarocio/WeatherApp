@@ -8,6 +8,7 @@
 import Foundation
 import CoreLocation
 
+/// Protocol to pass the CityGeocode struct from the View Model to the View
 protocol CurrentLocationProtocol: AnyObject {
     func updateLocation(location: CityGeocode)
 }
