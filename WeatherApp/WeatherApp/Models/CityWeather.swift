@@ -7,17 +7,20 @@
 
 import Foundation
 
-struct CityWeather: Decodable {
-    struct main: Decodable {
-        var temp: String
-        var feelsLike: String
-        var tempMin: String
-        var tempMax: String
-        var humidity: String
-        
-    }
+struct CityWeather {
+    var temp: Double
+    var feelsLike: Double
+    var tempMin: Double
+    var tempMax: Double
+    var description: String
+    var iconURL: String
     
-    struct weather: Decodable {
-        var icon: String
+    init(temp: Double, feelsLike: Double, tempMin: Double, tempMax: Double, description: String, iconURL: String) {
+        self.temp = temp
+        self.feelsLike = feelsLike
+        self.tempMin = tempMin
+        self.tempMax = tempMax
+        self.description = description
+        self.iconURL = String(format: NetworkConstants.imageBaseURL, iconURL)
     }
 }

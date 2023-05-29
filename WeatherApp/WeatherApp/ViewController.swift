@@ -22,7 +22,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
-        
+        cityWeatherViewModel.delegate = self
     }
 
     // MARK: - Internal Methods
@@ -53,3 +53,8 @@ extension ViewController: UISearchBarDelegate {
     }
 }
 
+extension ViewController: WeatherResultsProtocolDelegate {
+    func displayCurrentWeather(weather: CityWeather) {
+        print(weather)
+    }
+}

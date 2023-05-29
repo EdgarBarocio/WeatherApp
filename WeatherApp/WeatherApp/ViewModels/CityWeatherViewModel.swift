@@ -13,6 +13,8 @@ class CityWeatherViewModel {
     private var serviceCalls = ServiceCalls()
     private var weather: CityWeather?
     
+    weak var delegate: (WeatherResultsProtocolDelegate)?
+    
     func performSearch(entry: String) {
         let searchArray = entry.components(separatedBy: [","]).filter({!$0.isEmpty})
 
@@ -60,16 +62,28 @@ class CityWeatherViewModel {
     }
     
     private func parseResponse(data: Data, errorMessage: String) {
-        
-        let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
-        
+        var responseDictionary: [String: Any]?
         
         do {
-            let decoded = try decoder.decode(CityWeather.self, from: data)
-            print(decoded)
+            responseDictionary = try JSONSerialization.jsonObject(with: data, options:[]) as? [String: Any] ?? Dictionary()
         } catch {
             print(error.localizedDescription)
         }
+        
+        guard let weatherArray = responseDictionary?["weather"] as? [Any],
+              let weatherDictionary = weatherArray.first as? [String: Any],
+              let mainDictionary = responseDictionary?["main"] as? [String: Any] else {
+            return
+        }
+
+        
+        let cityWeather = CityWeather(temp: mainDictionary["temp"] as? Double ?? 0.0,
+                                      feelsLike: mainDictionary["feels_like"] as? Double ?? 0.0,
+                                      tempMin: mainDictionary["temp_min"] as? Double ?? 0.0,
+                                      tempMax: mainDictionary["temp_max"] as? Double ?? 0.0,
+                                      description: weatherDictionary["description"] as? String ?? "nope",
+                                      iconURL: weatherDictionary["icon"] as? String ?? "nope")
+        
+        delegate?.displayCurrentWeather(weather: cityWeather)
     }
 }
